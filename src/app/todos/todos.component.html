@@ -1,1 +1,18 @@
-<p>todos works!</p>
+<div class="box" id="heading">
+    <h1 id="h1">{{title}}</h1>
+</div>
+
+<div class="box">
+    <form [formGroup]="todo">
+        <div class="item" *ngFor="let todo of todos">
+            <mat-checkbox (change)="onCheckboxChange($event,todo)" color="primary"></mat-checkbox>
+            <p>{{todo | titlecase}}</p>
+        </div>
+        <div class="i item" fxLayoutAlign="center center">
+            <input type="text" formControlName="item" placeholder="New Todo" required autocomplete="off">
+            <button mat-mini-fab [disabled]="todo.invalid" (click)="addTodo()" type="submit" color="primary">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>
