@@ -6,7 +6,7 @@
     <form [formGroup]="todo">
         <div class="item" *ngFor="let todo of todos">
             <mat-checkbox (change)="onCheckboxChange($event,todo)" color="primary"></mat-checkbox>
-            <p>{{todo | titlecase}}</p>
+            <p>{{todo.todo | titlecase}}</p>
         </div>
         <div class="i item" fxLayoutAlign="center center">
             <input type="text" formControlName="item" placeholder="New Todo" required autocomplete="off">
