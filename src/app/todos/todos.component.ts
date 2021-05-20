@@ -30,15 +30,15 @@ export class TodosComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.afAuth.onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in.
-        this.title = moment().format('dddd');
-      } else {
-        // No user is signed in.
-        this.router.navigate([''])
-      }
-    });
+    var user = this.afAuth.currentUser;
+
+    if (user) {
+      // User is signed in.
+      this.title = moment().format('dddd');
+    } else {
+      // No user is signed in.
+      this.router.navigate([''])
+    }
   }
 
   addTodo() {
