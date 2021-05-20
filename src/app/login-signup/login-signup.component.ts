@@ -29,15 +29,17 @@ export class LoginSignupComponent implements OnInit {
 
 
   ngOnInit(): void {
-    var user = this.afAuth.currentUser;
 
-    if (user) {
-      // User is signed in.
-      this.router.navigate(['todolist'])
-    } else {
-      // No user is signed in.
-      this.router.navigate([''])
-    }
+    this.afAuth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in.
+        this.router.navigate(['todolist'])
+      } else {
+        // No user is signed in.
+        this.router.navigate([''])
+      }
+    });
+    
   }
 
   signIn() {
