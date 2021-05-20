@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
@@ -9,7 +13,12 @@ import * as moment from 'moment';
 })
 export class TodosComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private afAuth: AngularFireAuth,
+    private db: AngularFireDatabase,
+    private router: Router,
+    public snackbar: MatSnackBar
+    ) { }
 
   title: any
 
@@ -17,11 +26,19 @@ export class TodosComponent implements OnInit {
 
   todo = new FormGroup({
     check: new FormControl(false),
-    item: new FormControl("",[Validators.required])
+    item: new FormControl("", [Validators.required])
   })
 
   ngOnInit(): void {
-    this.title = moment().format('dddd');
+    var user = this.afAuth.currentUser;
+
+    if (user) {
+      // User is signed in.
+      this.title = moment().format('dddd');
+    } else {
+      // No user is signed in.
+      this.router.navigate([''])
+    }
   }
 
   addTodo() {

@@ -1,0 +1,48 @@
+<div class="box mat-elevation-z6" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="8px">
+  <div class="mat-headline">Create account</div>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div>Already have an account?</div>
+    <button (click)="signIn()" mat-button>Sign in</button>
+  </div>
+  <div class="fields">
+    <form [formGroup]="signUpForm">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Enter your email</mat-label>
+          <!-- <button mat-icon-button matPrefix>
+            <mat-icon>mail</mat-icon>
+          </button> -->
+          <input matInput formControlName="email" type='email' required>
+          <mat-error *ngIf="signUpForm.get('email')?.hasError('required')">
+            <strong>Required</strong>
+          </mat-error>
+          <mat-error *ngIf="signUpForm.get('email')?.hasError('email')">
+            Please enter a valid email address
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Enter your password</mat-label>
+          <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="signUpForm.get('password')?.hasError('required')">
+            <strong>Required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Re-Enter your password</mat-label>
+          <input matInput formControlName="reEnterPassword" [type]="hide ? 'password' : 'text'" required>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="signUpForm.get('reEnterPassword')?.hasError('required')">
+            <strong>Required</strong>
+          </mat-error>
+        </mat-form-field>
+        <button [disabled]=signUpForm.invalid (click)="signUp()" class="example-full-width" color="primary" mat-flat-button>{{signup ? 'Sign Up' : 'Sign In'}}</button>
+        
+    </form>
+  </div>
+</div>
