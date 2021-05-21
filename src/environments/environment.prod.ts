@@ -7,6 +7,6 @@ export const environment = {
     projectId: "to-do-list-2105",
     storageBucket: "to-do-list-2105.appspot.com",
     // messagingSenderId: "396262727773",
-    // appId: "1:396262727773:web:8b94de541e5f5143992db4",
+    appId: "1:584947424270:web:224dd2928e8fdd66f9305f",
   },
 };
