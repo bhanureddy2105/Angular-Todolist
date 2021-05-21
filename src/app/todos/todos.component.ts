@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -18,7 +18,8 @@ export class TodosComponent implements OnInit {
     private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
     private router: Router,
-    public snackbar: MatSnackBar
+    public snackbar: MatSnackBar,
+    private zone: NgZone
   ) { }
 
   title: any
@@ -31,15 +32,18 @@ export class TodosComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    var user = this.afAuth.currentUser;
 
-    if (user) {
-      // User is signed in.
-      this.title = moment().format('dddd');
-    } else {
-      // No user is signed in.
-      this.router.navigate([''])
-    }
+    this.afAuth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in.
+        this.title = moment().format('MMM Do dddd');
+      } else {
+        // No user is signed in.
+        this.zone.run(() => {
+          this.router.navigate(['']);
+        });
+      }
+    });
     this.getTodos()
   }
 
@@ -100,6 +104,17 @@ export class TodosComponent implements OnInit {
         return this.db.object(`todos/${user.uid}/${todo.id}`).remove()
       }
     }
+  }
+
+  logout() {
+    return this.afAuth.signOut().then(() => {
+      // Sign-out successful.
+      this.router.navigate([''])
+      this.snackbar.open("Logout Successfull", "", { duration: 5000 })
+    }).catch((error) => {
+      // An error happened.
+      this.snackbar.open(error.message, "", { duration: 5000 })
+    });
   }
 
 }

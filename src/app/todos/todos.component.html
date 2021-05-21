@@ -1,8 +1,19 @@
-<div class="box" id="heading">
+<mat-toolbar>
+    <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+     <mat-icon>menu</mat-icon>
+   </button> -->
+   <span>My App</span>
+   <span class="example-spacer"></span>
+   <button mat-stroked-button (click)="logout()" class="example-icon">
+       Logout
+  </button>
+ </mat-toolbar>
+
+<div class="box mat-elevation-z6" id="heading">
     <h1 id="h1">{{title}}</h1>
 </div>
 
-<div class="box">
+<div class="box mat-elevation-z6">
     <form [formGroup]="todo">
         <div class="item" *ngFor="let todo of todos">
             <mat-checkbox (change)="onCheckboxChange($event,todo)" color="primary"></mat-checkbox>

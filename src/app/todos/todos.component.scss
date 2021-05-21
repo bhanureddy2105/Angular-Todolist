@@ -3,6 +3,10 @@ h1 {
   padding: 10px;
 }
 
+.example-spacer {
+  flex: 1 1 auto;
+}
+
 .box {
   max-width: 400px;
   margin: 50px auto;

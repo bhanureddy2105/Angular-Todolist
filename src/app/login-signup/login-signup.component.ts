@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
@@ -12,11 +12,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class LoginSignupComponent implements OnInit {
 
-  constructor(private afAuth: AngularFireAuth, 
+  constructor(private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
-    private router:Router,
-    public snackbar:MatSnackBar
-    ) { }
+    private router: Router,
+    public snackbar: MatSnackBar,
+    private zone: NgZone
+  ) { }
 
   hide = true;
   signup = true
@@ -29,15 +30,18 @@ export class LoginSignupComponent implements OnInit {
 
 
   ngOnInit(): void {
-    var user = this.afAuth.currentUser;
 
-    if (user) {
-      // User is signed in.
+    this.afAuth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in.
       this.router.navigate(['todolist'])
     } else {
-      // No user is signed in.
-      this.router.navigate([''])
-    }
+        // No user is signed in.
+        this.zone.run(() => {
+          this.router.navigate(['']);
+        });
+      }
+    });
   }
 
   signIn() {
@@ -50,20 +54,31 @@ export class LoginSignupComponent implements OnInit {
     let reEnterPassword = this.signUpForm.get('reEnterPassword')?.value
 
     if (password === reEnterPassword) {
-      this.afAuth.createUserWithEmailAndPassword(email, password)
+      // this.afAuth.createUserWithEmailAndPassword(email, password)
+      //   .then((userCredential) => {
+      //     // Signed in 
+      //     var user = userCredential.user;
+      //     console.log(user);  
+      //     this.router.navigate(['todolist'])
+      //   })
+      //   .catch((error) => {
+      //     console.log(error.code);
+      //     console.log(error.message);
+      //   });
+      this.afAuth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          // Signed in 
+          // Signed in
           var user = userCredential.user;
-          console.log(user);  
           this.router.navigate(['todolist'])
+          // ...
         })
         .catch((error) => {
-          console.log(error.code);
-          console.log(error.message);
+          var errorCode = error.code;
+          var errorMessage = error.message;
         });
     }
-    else{
-      this.snackbar.open('Passwords donot match',"",{duration:5000})
+    else {
+      this.snackbar.open('Passwords donot match', "", { duration: 5000 })
     }
 
   }
