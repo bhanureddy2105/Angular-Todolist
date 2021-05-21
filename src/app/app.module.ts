@@ -8,11 +8,15 @@ import { TodosComponent } from './todos/todos.component';
 import { VitaMaterialModule } from './app-ui.module';
 import { LoginSignupComponent } from './login-signup/login-signup.component';
 import { AngularFireModule } from '@angular/fire';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 @NgModule({
   declarations: [
     AppComponent,
     TodosComponent,
-    LoginSignupComponent
+    LoginSignupComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class LoginSignupComponent implements OnInit {
 
   constructor(private afAuth: AngularFireAuth,
-    private db: AngularFireDatabase,
     private router: Router,
     public snackbar: MatSnackBar,
     private zone: NgZone
@@ -42,45 +41,6 @@ export class LoginSignupComponent implements OnInit {
         });
       }
     });
-  }
-
-  signIn() {
-    this.signup = false;
-  }
-
-  signUp() {
-    let email = this.signUpForm.get('email')?.value
-    let password = this.signUpForm.get('password')?.value
-    let reEnterPassword = this.signUpForm.get('reEnterPassword')?.value
-
-    if (password === reEnterPassword) {
-      // this.afAuth.createUserWithEmailAndPassword(email, password)
-      //   .then((userCredential) => {
-      //     // Signed in 
-      //     var user = userCredential.user;
-      //     console.log(user);  
-      //     this.router.navigate(['todolist'])
-      //   })
-      //   .catch((error) => {
-      //     console.log(error.code);
-      //     console.log(error.message);
-      //   });
-      this.afAuth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          // Signed in
-          var user = userCredential.user;
-          this.router.navigate(['todolist'])
-          // ...
-        })
-        .catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-        });
-    }
-    else {
-      this.snackbar.open('Passwords donot match', "", { duration: 5000 })
-    }
-
   }
 
 }

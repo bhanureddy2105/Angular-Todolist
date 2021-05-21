@@ -1,0 +1,30 @@
+<div class="fields">
+    <form [formGroup]="signInForm">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Enter your email</mat-label>
+          <!-- <button mat-icon-button matPrefix>
+            <mat-icon>mail</mat-icon>
+          </button> -->
+          <input matInput formControlName="email" type='email' required>
+          <mat-error *ngIf="signInForm.get('email')?.hasError('required')">
+            <strong>Required</strong>
+          </mat-error>
+          <mat-error *ngIf="signInForm.get('email')?.hasError('email')">
+            Please enter a valid email address
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Enter your password</mat-label>
+          <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="signInForm.get('password')?.hasError('required')">
+            <strong>Required</strong>
+          </mat-error>
+        </mat-form-field>
+        <button [disabled]=signInForm.invalid (click)="signIn()" class="example-full-width" color="primary" mat-flat-button>Sign In</button>
+        
+    </form>
+  </div>
