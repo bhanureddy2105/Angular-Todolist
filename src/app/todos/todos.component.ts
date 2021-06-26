@@ -19,7 +19,6 @@ export class TodosComponent implements OnInit {
     private db: AngularFireDatabase,
     private router: Router,
     public snackbar: MatSnackBar,
-    private zone: NgZone
   ) { }
 
   title: any
@@ -39,9 +38,7 @@ export class TodosComponent implements OnInit {
         this.title = moment().format('MMM Do dddd');
       } else {
         // No user is signed in.
-        this.zone.run(() => {
           this.router.navigate(['']);
-        });
       }
     });
     this.getTodos()
