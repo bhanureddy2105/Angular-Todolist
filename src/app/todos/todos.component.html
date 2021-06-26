@@ -1,29 +1,30 @@
 <mat-toolbar>
-    <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+  <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
      <mat-icon>menu</mat-icon>
    </button> -->
-   <span>To-do-List</span>
-   <span class="example-spacer"></span>
-   <button mat-stroked-button (click)="logout()" class="example-icon">
-       Logout
+  <span>To-do-List</span>
+  <span class="example-spacer"></span>
+  <button mat-stroked-button (click)="logout()" class="example-icon">
+    Logout
   </button>
- </mat-toolbar>
+</mat-toolbar>
 
 <div class="box mat-elevation-z6" id="heading">
-    <h1 id="h1">{{title}}</h1>
+  <h1 id="h1">{{title}}</h1>
 </div>
 
 <div class="box mat-elevation-z6">
-    <form [formGroup]="todo">
-        <div class="item" *ngFor="let todo of todos">
-            <mat-checkbox (change)="onCheckboxChange($event,todo)" color="primary"></mat-checkbox>
-            <p>{{todo.todo | titlecase}}</p>
-        </div>
-        <div class="i item" fxLayoutAlign="center center">
-            <input type="text" formControlName="item" placeholder="New Todo" required autocomplete="off">
-            <button mat-mini-fab [disabled]="todo.invalid" (click)="addTodo()" type="submit" color="primary">
-                <mat-icon>add</mat-icon>
-            </button>
-        </div>
-    </form>
+  <form [formGroup]="todo">
+    <div class="item" fxLayoutAlign="space-between center" *ngFor="let todo of todos">
+      <mat-checkbox [checked]="todo.isChecked" (change)="onCheckboxChange($event,todo)" color="primary"></mat-checkbox>
+      <p [ngClass]="{'true': todo.isChecked}">{{todo.todo | titlecase}}</p>
+      <mat-icon matTooltip="Delete Todo" class="delete" (click)="onDelete(todo)" color="warn">delete</mat-icon>
+    </div>
+    <div class="i item" fxLayoutAlign="center center">
+      <input type="text" formControlName="item" placeholder="New Todo" required autocomplete="off">
+      <button mat-mini-fab [disabled]="todo.invalid" (click)="addTodo()" type="submit" color="primary">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </form>
 </div>

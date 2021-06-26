@@ -83,6 +83,7 @@ export class TodosComponent implements OnInit {
       return this.db.object(`todos/${user.uid}`).query.ref.push(
         {
           todo,
+          isChecked: false
         }
       );
     }
@@ -98,11 +99,26 @@ export class TodosComponent implements OnInit {
   }
 
   async onCheckboxChange(event: any, todo: any) {
-    if (event.checked) {
-      const user = await this.getUser();
-      if (user) {
-        return this.db.object(`todos/${user.uid}/${todo.id}`).remove()
+    const user = await this.getUser();
+    if (user) {
+      if (event.checked) {
+        return this.db.object(`todos/${user.uid}/${todo.id}`).update({
+          isChecked: true,
+        })
       }
+      else {
+        return this.db.object(`todos/${user.uid}/${todo.id}`).update({
+          isChecked: false,
+        })
+      }
+    }
+
+  }
+
+  async onDelete(todo: any) {
+    const user = await this.getUser();
+    if (user) {
+      return this.db.object(`todos/${user.uid}/${todo.id}`).remove()
     }
   }
 

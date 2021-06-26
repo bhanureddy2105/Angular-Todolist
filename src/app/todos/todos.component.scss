@@ -84,3 +84,14 @@ footer p {
   color: rgba(0, 0, 0, 0.5);
   text-align: center;
 }
+
+.delete{
+  cursor: pointer;
+  margin: 20px;
+}
+
+.true{
+  text-decoration: line-through;
+  text-decoration-color: #A683E3;
+}
+
