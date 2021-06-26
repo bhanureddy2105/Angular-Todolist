@@ -4,6 +4,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-login',
@@ -44,6 +45,21 @@ export class LoginComponent implements OnInit {
           // var errorMessage = error.message;
           this.snackbar.open(error.message, "", { duration: 5000 })
         });
+
+  }
+
+  signInWithGoogle() {
+
+    var provider = new firebase.auth.GoogleAuthProvider();
+    this.afAuth.signInWithPopup(provider).then((details)=>{
+      console.log(details);   
+      if(details?.user?.uid){
+        this.router.navigate(['todolist'])
+      }
+      else{
+        this.snackbar.open('Signup failed', "", { duration: 5000 })
+      }
+    })
 
   }
 

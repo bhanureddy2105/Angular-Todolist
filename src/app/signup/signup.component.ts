@@ -4,6 +4,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-signup',
@@ -41,7 +42,7 @@ export class SignupComponent implements OnInit {
         .then((userCredential) => {
           // Signed in 
           var user = userCredential.user;
-          console.log(user);  
+          console.log(user);
           this.router.navigate(['todolist'])
         })
         .catch((error) => {
@@ -51,8 +52,23 @@ export class SignupComponent implements OnInit {
         });
     }
     else {
-      this.snackbar.open('Passwords donot match', "", { duration: 5000 })
+      this.snackbar.open('Passwords do not match', "", { duration: 5000 })
     }
+
+  }
+
+  signUpWithGoogle() {
+
+    var provider = new firebase.auth.GoogleAuthProvider();
+    this.afAuth.signInWithPopup(provider).then((details)=>{
+      console.log(details);   
+      if(details?.user?.uid){
+        this.router.navigate(['todolist'])
+      }
+      else{
+        this.snackbar.open('Signup failed', "", { duration: 5000 })
+      }
+    })
 
   }
 

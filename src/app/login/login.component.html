@@ -1,4 +1,4 @@
-<div class="fields">
+<div class="fields" fxLayoutAlign="space-between center" fxLayout="column" fxLayoutGap="8px">
     <form [formGroup]="signInForm">
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Enter your email</mat-label>
@@ -27,4 +27,8 @@
         <button [disabled]=signInForm.invalid (click)="signIn()" class="example-full-width" color="primary" mat-flat-button>Sign In</button>
         
     </form>
+    <div class="mat-title">Or</div>
+    <button  class="example-full-width google" (click)="signInWithGoogle()" color="primary" mat-stroked-button>
+      <i class="fab fa-google"></i>Sign Up With Google
+    </button>
   </div>
