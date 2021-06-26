@@ -20,11 +20,12 @@ export class LoginSignupComponent implements OnInit {
 
   hide = true;
   signup = true
+  selectedIndex: number = 0;
 
-  signUpForm = new FormGroup({
+  isReset: any
+
+  resetPasswordForm = new FormGroup({
     email: new FormControl("", [Validators.required, Validators.email]),
-    password: new FormControl("", [Validators.required]),
-    reEnterPassword: new FormControl("", [Validators.required]),
   })
 
 
@@ -33,14 +34,36 @@ export class LoginSignupComponent implements OnInit {
     this.afAuth.onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
-      this.router.navigate(['todolist'])
-    } else {
+        this.router.navigate(['todolist'])
+      } else {
         // No user is signed in.
         this.zone.run(() => {
           this.router.navigate(['']);
         });
       }
     });
+  }
+
+  reset() {
+    let email = this.resetPasswordForm.get('email')?.value
+    this.afAuth.sendPasswordResetEmail(email)
+      .then(() => {
+        // Password reset email sent!
+        // ..
+        this.router.navigate(['']);
+        this.snackbar.open("Reset Password Link sent Successfully. Please Check Your Email","",{duration: 7000})
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        this.snackbar.open(errorMessage,"",{duration: 4000})
+        // ..
+      });
+  }
+
+  goBack() {
+    this.isReset = false
+    this.selectedIndex = 1
   }
 
 }

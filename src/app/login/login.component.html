@@ -24,6 +24,7 @@
             <strong>Required</strong>
           </mat-error>
         </mat-form-field>
+       <div (click)="resetBtn()" class="reset mat-subheading-1"><u>Forgot Your Password?</u></div>
         <button [disabled]=signInForm.invalid (click)="signIn()" class="example-full-width" color="primary" mat-flat-button>Sign In</button>
         
     </form>
